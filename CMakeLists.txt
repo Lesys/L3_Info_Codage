@@ -8,3 +8,5 @@ file(GLOB SOURCES "src/*.c")
 add_executable(tp1_A ${SOURCES})
 
 target_link_libraries(tp1_A m)
+
+add_definitions("-g")

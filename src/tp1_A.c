@@ -9,8 +9,22 @@
 #define NB_USERS_MAX 16
 #define TAILLE_MAX_MESSAGE 256
 
+int transformer_message_bit(char* message, char** bits) {
+	*bits = malloc(sizeof(**bits) * strlen(message) * 8 + 1);
+fprintf(stderr, "%d caractères alloués\n", sizeof(**bits) * (strlen(message) + 1) * 8);
+	int i, j;
+	for (i = 0; i < (strlen(message) + 1) * 8 && message[i] != '\0'; i++) {
+		for (j = 7; j >= 0; j--) {
+			fprintf(stderr, "cara: %c, binaire: %c, indice bits: %d\n", message[i], message[i] & (1 << j)? '1' : '0', i * 8 + (7 - j));
+			*bits[i * 8 + (7 - j)] = 'h';//(message[i] & (1 << j)? '1' : '0');
+			fprintf(stderr, "Valeur dans bits: %c\n", *bits[i * 8 + (7 - j)]);
+		}
 
-// int hadamard_matrice(n, ** matrice)
+//		*bits[i * 8 + j] = '\0';
+//		printf("%s\n", *bits + i * 8);
+	}
+}
+
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
 		fprintf(stderr, "Nombre de paramètres incorrects: %s <nb_utilisateurs>\n", argv[0]);
@@ -41,8 +55,11 @@ int main(int argc, char* argv[]) {
 	// Récup du message d'un utilisateur: (message_etale * (sequence_utilisateur)T)/nb_lignes
 	char* bits = NULL;
 
-//	transformer_message_bit(message, &bits);
+	transformer_message_bit(message, &bits);
 
+
+	free(bits);
+	free(message);
 	return 0;
 }
 
