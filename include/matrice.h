@@ -8,15 +8,15 @@ typedef struct {
 } matrice_t;
 
 // Création d'une nouvelle matrice
-matrice_t creer_matrice();
+matrice_t matrice_creer();
 
 // Destruction d'une matrice
-void detruire_matrice(matrice_t matrice);
+void matrice_detruire(matrice_t matrice);
 
 // Affichage d'une matrice
-void afficher_matrice(matrice_t matrice);
+void matrice_afficher(matrice_t matrice);
 
 // Multiplication de matrices
-matrice_t multiplier_matrice(matrice_t a, matrice_t b);
+matrice_t matrice_multiplier(matrice_t a, matrice_t b);
 
 #endif

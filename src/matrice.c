@@ -7,7 +7,7 @@
 // Création d'une nouvelle matrice vide
 //
 // Retourne la matrice créée
-matrice_t creer_matrice() {
+matrice_t matrice_creer() {
   matrice_t matrice;
   matrice.nb_lignes = 0;
   matrice.nb_colonnes = 0;
@@ -15,14 +15,14 @@ matrice_t creer_matrice() {
 }
 
 // Destruction d'une matrice
-void detruire_matrice(matrice_t matrice) {
+void matrice_detruire(matrice_t matrice) {
   if (matrice.tab != NULL) {
     free(matrice.tab);
   }
 }
 
 // Affichage d'une matrice
-void afficher_matrice(matrice_t matrice) {
+void matrice_afficher(matrice_t matrice) {
 	for(int i = 0; i < matrice.nb_lignes; i++) {
 		for (int j = 0; j < matrice.nb_colonnes; j++) {
 			printf("%3d ", matrice.tab[i*matrice.nb_colonnes + j]);
@@ -35,20 +35,20 @@ void afficher_matrice(matrice_t matrice) {
 //
 // Renvoie la matrice résultante de axb
 // Si erreur la matrice est vide
-matrice_t multiplier_matrice(matrice_t a, matrice_t b) {
-  matrice_t res = creer_matrice();
+matrice_t matrice_multiplier(matrice_t a, matrice_t b) {
+  matrice_t res = matrice_creer();
   int somme;
   if (a.nb_colonnes == b.nb_lignes) {
     res.nb_lignes = a.nb_lignes;
-    res.nb_colonnes = b.nb_colonnes
+    res.nb_colonnes = b.nb_colonnes;
     res.tab = malloc(res.nb_lignes * res.nb_colonnes * sizeof(char));
-    for (int i = 0; i < nb_lignes; i++) {
-      for (int j = 0; j < nb_colonnes; j++) {
+    for (int i = 0; i < res.nb_lignes; i++) {
+      for (int j = 0; j < res.nb_colonnes; j++) {
         somme = 0;
-        for (int k = 0; k < a.nb_colonnes) {
+        for (int k = 0; k < a.nb_colonnes; k++) {
           somme += a.tab[a.nb_colonnes * i + k] * b.tab[b.nb_colonnes * k + i];
         }
-        res.tab[nb_colonnes * i + j] = somme;
+        res.tab[res.nb_colonnes * i + j] = somme;
       }
     }
   }
