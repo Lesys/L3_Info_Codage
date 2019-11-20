@@ -3,6 +3,7 @@
 #include <math.h>
 #include <string.h>
 
+#include "matrice.h"
 #include "hadamard.h"
 
 #define NB_USERS_MIN 1
@@ -45,4 +46,3 @@ int main(int argc, char* argv[]) {
 
 	return 0;
 }
-
