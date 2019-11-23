@@ -3,8 +3,8 @@
 #include <math.h>
 #include <string.h>
 
-#include "matrice.h"
-#include "hadamard.h"
+#include "../include/matrice.h"
+#include "../include/hadamard.h"
 
 #define NB_USERS_MIN 1
 #define NB_USERS_MAX 16
@@ -22,7 +22,7 @@ int transformer_message_bit(char* message, char* bits) {
 		}
 
 		bits[i * 8 + j] = '\0';
-		printf("%s", bits + i * 8);
+		printf("%s ", bits + i * 8);
 	}
 }
 
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
 	// Matrice d'Hadamard générée par la fonction
 	matrice_t hadam_matrice;
 	hadamard_matrice(num_matrice, &hadam_matrice);
-	afficher_matrice(hadam_matrice);
+	matrice_afficher(hadam_matrice);
 
 	char* message = malloc(sizeof(*message) * TAILLE_MAX_MESSAGE);
 	printf("Message à envoyer: ");

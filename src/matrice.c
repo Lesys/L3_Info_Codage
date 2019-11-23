@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "matrice.h"
+#include "../include/matrice.h"
 
 // Création d'une nouvelle matrice vide
 //
@@ -36,22 +36,26 @@ void matrice_afficher(matrice_t matrice) {
 // Renvoie la matrice résultante de axb
 // Si erreur la matrice est vide
 matrice_t matrice_multiplier(matrice_t a, matrice_t b) {
-  matrice_t res = matrice_creer();
-  int somme;
-  if (a.nb_colonnes == b.nb_lignes) {
-    res.nb_lignes = a.nb_lignes;
-    res.nb_colonnes = b.nb_colonnes;
-    res.tab = malloc(res.nb_lignes * res.nb_colonnes * sizeof(char));
-    for (int i = 0; i < res.nb_lignes; i++) {
-      for (int j = 0; j < res.nb_colonnes; j++) {
-        somme = 0;
-        for (int k = 0; k < a.nb_colonnes; k++) {
-          somme += a.tab[a.nb_colonnes * i + k] * b.tab[b.nb_colonnes * k + i];
-        }
-        res.tab[res.nb_colonnes * i + j] = somme;
-      }
-    }
-  }
+	matrice_t res = matrice_creer();
+	int somme;
 
-  return res;
+	if (a.nb_colonnes == b.nb_lignes) {
+		res.nb_lignes = a.nb_lignes;
+		res.nb_colonnes = b.nb_colonnes;
+		res.tab = malloc(res.nb_lignes * res.nb_colonnes * sizeof(char));
+
+		for (int i = 0; i < res.nb_lignes; i++) {
+			for (int j = 0; j < res.nb_colonnes; j++) {
+				somme = 0;
+
+				for (int k = 0; k < a.nb_colonnes; k++) {
+					somme += a.tab[a.nb_colonnes * i + k] * b.tab[b.nb_colonnes * k + j];
+				}
+
+				res.tab[res.nb_colonnes * i + j] = somme;
+			}
+		}
+	}
+
+	return res;
 }

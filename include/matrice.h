@@ -4,7 +4,7 @@
 typedef struct {
 	char * tab;
 	int nb_colonnes;
-  int nb_lignes;
+	int nb_lignes;
 } matrice_t;
 
 // Création d'une nouvelle matrice
