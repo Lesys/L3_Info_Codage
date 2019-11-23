@@ -35,6 +35,23 @@ matrice_t matrice_identite(int n) {
 	return identite;
 }
 
+// Transposée d'une matrice
+matrice_t matrice_transposee(matrice_t matrice) {
+	matrice_t transp = matrice_creer();
+	transp.nb_lignes = matrice.nb_colonnes;
+	transp.nb_colonnes = matrice.nb_lignes;
+	transp.tab = malloc(sizeof(char) * transp.nb_lignes * transp.nb_colonnes);
+
+	int i, j;
+	for (i = 0; i < matrice.nb_lignes; i++)
+		for (j = 0; j < matrice.nb_colonnes; j++) {
+			transp.tab[transp.nb_colonnes * j + i] = matrice.tab[matrice.nb_colonnes * i + j];
+			printf("%d ", matrice.tab[matrice.nb_colonnes * i + j]);
+		}
+
+	return transp;
+}
+
 // Affichage d'une matrice
 void matrice_afficher(matrice_t matrice) {
 	for(int i = 0; i < matrice.nb_lignes; i++) {

@@ -62,10 +62,6 @@ int main() {
 	matrice_afficher(m3m3);
 
 	printf("Fin des tests\n");
-	matrice_detruire(m1);
-	matrice_detruire(m2);
-	matrice_detruire(m_mult);
-	matrice_detruire(m3m3);
 
 	int n;
 	printf("Taille matrice identité: ");
@@ -73,7 +69,18 @@ int main() {
 	matrice_t id = matrice_identite(n);
 	printf("Matrice identité %d:\n", n);
 	matrice_afficher(id);
+
+	matrice_t t = matrice_transposee(m1);
+	printf("Transposée de M1:\n");
+	matrice_afficher(t);
+
+
+	matrice_detruire(m1);
+	matrice_detruire(m2);
+	matrice_detruire(m_mult);
+	matrice_detruire(m3m3);
 	matrice_detruire(id);
+	matrice_detruire(t);
 
 	return 0;
 }
