@@ -67,5 +67,13 @@ int main() {
 	matrice_detruire(m_mult);
 	matrice_detruire(m3m3);
 
+	int n;
+	printf("Taille matrice identité: ");
+	scanf("%d", &n);
+	matrice_t id = matrice_identite(n);
+	printf("Matrice identité %d:\n", n);
+	matrice_afficher(id);
+	matrice_detruire(id);
+
 	return 0;
 }

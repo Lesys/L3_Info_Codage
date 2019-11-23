@@ -13,6 +13,9 @@ matrice_t matrice_creer();
 // Destruction d'une matrice
 void matrice_detruire(matrice_t matrice);
 
+// Matrice identité N
+matrice_t matrice_identite(int n);
+
 // Affichage d'une matrice
 void matrice_afficher(matrice_t matrice);
 

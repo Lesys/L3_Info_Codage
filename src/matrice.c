@@ -21,6 +21,20 @@ void matrice_detruire(matrice_t matrice) {
   }
 }
 
+// Matrice identité N
+matrice_t matrice_identite(int n) {
+	matrice_t identite = matrice_creer();
+	identite.nb_lignes = identite.nb_colonnes = n;
+	identite.tab = malloc(sizeof(char) * n * n);
+
+	int i, j;
+	for (i = 0; i < n; i++)
+		for (j = 0; j < n; j++)
+			identite.tab[n * i + j] = i == j? 1 : 0;
+
+	return identite;
+}
+
 // Affichage d'une matrice
 void matrice_afficher(matrice_t matrice) {
 	for(int i = 0; i < matrice.nb_lignes; i++) {
