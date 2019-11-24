@@ -5,6 +5,7 @@
 
 #include "../include/matrice.h"
 #include "../include/hadamard.h"
+#include "../include/etalement.h"
 
 #define NB_USERS_MIN 1
 #define NB_USERS_MAX 16
@@ -25,6 +26,8 @@ int transformer_message_bit(char* message, char* bits) {
 		printf("%s ", bits + i * 8);
 	}
 }
+
+
 
 int main(int argc, char* argv[]) {
 	if (argc != 2) {
@@ -58,6 +61,33 @@ int main(int argc, char* argv[]) {
 
 	transformer_message_bit(message, bits);
 
+	// Test etalement
+	matrice_t hadam;
+	msg_etale_t m, m1, m2;
+
+	printf("\n\nTest Etalement :\n\n");
+
+	hadamard_matrice(3, &hadam);
+	m1 = etalement("101", hadam, 1);
+	printf("Message 1 :\n101\nMessage 1 etale :\n");
+	msg_etale_afficher(m1);
+	m2 = etalement("011", hadam, 3);
+	printf("Message 2 :\n011\nMessage 2 etale :\n");
+	msg_etale_afficher(m2);
+	m = msg_etale_ajouter(m1, m2);
+	printf("Somme message 1 et 2 :\n");
+	msg_etale_afficher(m);
+	printf("Message 1 desetale :\n");
+	printf("%s\n", desetalement(m, hadam, 1));
+	printf("Message 2 desetale :\n");
+	printf("%s\n", desetalement(m, hadam, 3));
+
+	msg_etale_detruire(m);
+	msg_etale_detruire(m1);
+	msg_etale_detruire(m2);
+
+	matrice_detruire(hadam);
+	matrice_detruire(hadam_matrice);
 
 	free(bits);
 	free(message);

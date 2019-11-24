@@ -19,7 +19,7 @@ VPATH = lib:build:bin:src:include
 DIROBJ := bin/
 CFLAGS += -g -lm -std=c99
 #-L./lib/SDL/lib -I./lib/SDL/include -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image -fPIC -Wall -std=c99
-OBJETS = hadamard.o matrice.o
+OBJETS = hadamard.o matrice.o etalement.o
 FICHIERSC = $(OBJETS:.o=.c)
 
 #Nom du programme principal
