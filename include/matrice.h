@@ -1,7 +1,7 @@
 #ifndef MATRICE_H
 #define MATRICE_H
 
-#define VAL(matrice, x, y) matrice.tab[(x - 1) * matrice.nb_colonnes + (y - 1)]
+#define VAL(matrice, x, y) matrice.tab[x * matrice.nb_colonnes + y]
 
 typedef struct {
 	char * tab;

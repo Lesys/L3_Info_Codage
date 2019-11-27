@@ -35,10 +35,10 @@ int hadamard_matrice(int n, matrice_t * matrice) {
 		for (int i = 0; i < matrice->nb_lignes; i++) {
 			for (int j = 0; j < matrice->nb_colonnes; j++) {
 				if (i >= matrice_prec.nb_lignes && j >= matrice_prec.nb_colonnes) {
-					matrice->tab[i*matrice->nb_colonnes + j] = -matrice_prec.tab[((i % matrice_prec.nb_colonnes) * matrice_prec.nb_colonnes) + (j % matrice_prec.nb_colonnes)];
+					VAL((*matrice), i, j) = -VAL(matrice_prec, i % matrice_prec.nb_colonnes, j % matrice_prec.nb_colonnes);
 				}
 				else {
-					matrice->tab[i*matrice->nb_colonnes + j] = matrice_prec.tab[((i % matrice_prec.nb_colonnes) * matrice_prec.nb_colonnes) + (j % matrice_prec.nb_colonnes)];
+					VAL((*matrice), i, j) = VAL(matrice_prec, i % matrice_prec.nb_colonnes, j % matrice_prec.nb_colonnes);
 				}
 			}
 		}

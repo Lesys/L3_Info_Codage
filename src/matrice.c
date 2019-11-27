@@ -30,7 +30,7 @@ matrice_t matrice_identite(int n) {
 	int i, j;
 	for (i = 0; i < n; i++)
 		for (j = 0; j < n; j++)
-			identite.tab[n * i + j] = i == j? 1 : 0;
+			VAL(identite, i, j) = i == j? 1 : 0;
 
 	return identite;
 }
@@ -45,9 +45,11 @@ matrice_t matrice_transposee(matrice_t matrice) {
 	int i, j;
 	for (i = 0; i < matrice.nb_lignes; i++)
 		for (j = 0; j < matrice.nb_colonnes; j++) {
-			transp.tab[transp.nb_colonnes * j + i] = matrice.tab[matrice.nb_colonnes * i + j];
-			printf("%d ", matrice.tab[matrice.nb_colonnes * i + j]);
+			VAL(transp, j, i) = VAL(matrice, i, j);
+			printf("%d ", VAL(matrice, i, j));
 		}
+
+	printf("\n");
 
 	return transp;
 }
@@ -56,7 +58,7 @@ matrice_t matrice_transposee(matrice_t matrice) {
 void matrice_afficher(matrice_t matrice) {
 	for(int i = 0; i < matrice.nb_lignes; i++) {
 		for (int j = 0; j < matrice.nb_colonnes; j++) {
-			printf("%3d ", matrice.tab[i*matrice.nb_colonnes + j]);
+			printf("%3d ", VAL(matrice, i, j));
 		}
 		printf("\n\n");
 	}
@@ -80,10 +82,10 @@ matrice_t matrice_multiplier(matrice_t a, matrice_t b) {
 				somme = 0;
 
 				for (int k = 0; k < a.nb_colonnes; k++) {
-					somme += a.tab[a.nb_colonnes * i + k] * b.tab[b.nb_colonnes * k + j];
+					somme += VAL(a, i, k) * VAL(b, k, j);
 				}
 
-				res.tab[res.nb_colonnes * i + j] = somme;
+				VAL(res, i, j) = somme;
 			}
 		}
 	}
