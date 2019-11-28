@@ -22,7 +22,7 @@ msg_etale_t msg_etale_ajouter(msg_etale_t a, msg_etale_t b) {
 		res.nb_sequences = 0;
 		return res;
 	}
-	
+
 	res.nb_sequences = a.nb_sequences;
 	res.taille_sequence = a.taille_sequence;
 	res.sequences = malloc(sizeof(char) * res.taille_sequence * res.nb_sequences);
@@ -44,6 +44,8 @@ void msg_etale_detruire(msg_etale_t m) {
 // Etalement d'un message
 // !!! Les numéros d'utilisateurs commencent à 0
 msg_etale_t etalement(char * bits, matrice_t hadamard, int num_utilisateur) {
+//fprintf(stderr, "CHaine à coder dans étalement: %s\n", bits);
+
 	msg_etale_t m;
 	m.taille_sequence = hadamard.nb_colonnes;
 	m.nb_sequences = strlen(bits);
@@ -54,11 +56,12 @@ msg_etale_t etalement(char * bits, matrice_t hadamard, int num_utilisateur) {
 	char * cur = m.sequences;
 	// Pointeur sur la séquence de l'utilisateur
 	char * base_seq = hadamard.tab + hadamard.nb_colonnes * num_utilisateur;
+
 	int signe;
 
 	for (int i = 0; i < m.nb_sequences; i++) {
 		signe = bits[i] == '1' ? 1 : -1;
-		
+
 		for (int j = 0; j < m.taille_sequence; j++) {
 			cur[j] = signe * base_seq[j];
 		}
