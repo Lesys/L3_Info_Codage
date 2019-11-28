@@ -3,7 +3,7 @@
 
 #define VAL(matrice, x, y) matrice.tab[x * matrice.nb_colonnes + y]
 
-typedef struct {
+typedef struct matrice_s {
 	char * tab;
 	int nb_colonnes;
 	int nb_lignes;
