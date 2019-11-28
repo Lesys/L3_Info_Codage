@@ -25,6 +25,8 @@ typedef struct msg_code_s {
 } msg_code_t;
 */
 
+void msg_code_detruire(msg_code_t msg);
+
 int codeur(int encoder_type, char * data, msg_code_t * res);
 
 char * decodeur(msg_code_t data);

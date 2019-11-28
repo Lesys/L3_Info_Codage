@@ -4,6 +4,12 @@
 
 #include "../include/codeur.h"
 
+void msg_code_detruire(msg_code_t msg) {
+    if (msg.tab) {
+        free(msg.tab);
+    }
+}
+
 static int n_zeros(char * data, int n) {
     int i;
     for (i = 0; i < n && data[i]; i++) {
@@ -103,8 +109,8 @@ static char * decodeur_hdbn(msg_code_t data) {
     return res;
 }
 
-static int decodeur_arithmetique() {
-    return 1;
+static char * decodeur_arithmetique() {
+    return NULL;
 }
 
 char * decodeur(msg_code_t data) {
