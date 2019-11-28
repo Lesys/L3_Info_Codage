@@ -17,7 +17,7 @@ VPATH = lib:build:bin:src:include
 #Variables pour la confection de la librairie :
 #Options pour les lignes de code faites pour la confection des fichiers objets
 DIROBJ := bin/
-CFLAGS += -g -lm -std=c99
+CFLAGS += -g -lm -std=c99 -Wall
 #-L./lib/SDL/lib -I./lib/SDL/include -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image -fPIC -Wall -std=c99
 OBJETS = hadamard.o matrice.o etalement.o
 FICHIERSC = $(OBJETS:.o=.c)
