@@ -17,9 +17,9 @@ VPATH = lib:build:bin:src:include
 #Variables pour la confection de la librairie :
 #Options pour les lignes de code faites pour la confection des fichiers objets
 DIROBJ := bin/
-CFLAGS += -g -lm -std=c99
+CFLAGS += -g -lm -std=c99 -Wall
 #-L./lib/SDL/lib -I./lib/SDL/include -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image -fPIC -Wall -std=c99
-OBJETS = hadamard.o matrice.o etalement.o
+OBJETS = hadamard.o matrice.o etalement.o codeur.o
 FICHIERSC = $(OBJETS:.o=.c)
 
 #Nom du programme principal
@@ -45,7 +45,7 @@ REALNAME := $(SONAME)$(MINEUR)$(CORRECTION)
 #Variables pour la confection des executables de test :
 TESTDIR := $(DIRBUILD)test/
 TESTDIRC := src/
-TESTOBJETS = test_matrice.o
+TESTOBJETS = test_matrice.o test_codeur.o
 #test_joueur.o test_carre.o test_affichage.o test_gestion_tour.o test_gestion_partie.o test_affichage_sdl.o test_interactif_affichage_sdl.o test_sdl.o test_gestion_tour_sdl.o test_gestion_partie_sdl.o test_distant_client.o test_distant_server.o test_gestion_bot.o
 TESTFICHIERSC = $(TESTOBJETS:.o=.c)
 TESTEXEC = $(TESTOBJETS:%.o=%)
