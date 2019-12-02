@@ -12,18 +12,18 @@ CC ?= gcc
 GW ?= i586-mingw32msvc-gcc
 
 #Variable où aller chercher les fichiers
-VPATH = lib:build:bin:src:include
+VPATH = lib:build:bin:src:include:src/tests
 
 #Variables pour la confection de la librairie :
 #Options pour les lignes de code faites pour la confection des fichiers objets
 DIROBJ := bin/
-CFLAGS += -g -lm -std=c99 -Wall -I./include
+CFLAGS += -g -lm -std=c99 -Wall -I./include -I./src
 #-L./lib/SDL/lib -I./lib/SDL/include -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image -fPIC -Wall -std=c99
 OBJETS = hadamard.o matrice.o etalement.o codeur.o pseudo_aleatoire.o
 FICHIERSC = $(OBJETS:.o=.c)
 
 #Nom du programme principal
-DIRMAIN := src/
+DIRMAIN := src/targets/
 NOMPROGPRINC = tp1_A
 PROGRPRINC = $(NOMPROGPRINC).o
 PATHMAIN := $(DIRMAIN)$(PROGRPRINC)
@@ -44,10 +44,9 @@ REALNAME := $(SONAME)$(MINEUR)$(CORRECTION)
 
 #Variables pour la confection des executables de test :
 TESTDIR := $(DIRBUILD)test/
-TESTDIRC := src/
+TESTDIRC := src/tests/
 TESTOBJETS = test_matrice.o test_pseudo_aleatoire.o
 # test_codeur.o
-#test_joueur.o test_carre.o test_affichage.o test_gestion_tour.o test_gestion_partie.o test_affichage_sdl.o test_interactif_affichage_sdl.o test_sdl.o test_gestion_tour_sdl.o test_gestion_partie_sdl.o test_distant_client.o test_distant_server.o test_gestion_bot.o
 TESTFICHIERSC = $(TESTOBJETS:.o=.c)
 TESTEXEC = $(TESTOBJETS:%.o=%)
 #TESTSTATIC = test_blokus.static
@@ -122,7 +121,7 @@ MOVE: $(STATIC)
 
 #Nettoie les fichiers créés dans le current directory
 clean:
-	-rm *.o *Blokus* *blokus*
+	-rm *.o *Tp1_A* *tp1_A*
 	-rm -R $(DIRBUILD)
 
 #Nettoie les dossiers créés et leur contenu
@@ -149,7 +148,7 @@ test: | TESTMOVE
 
 #Move les fichiers dans leur dossier respectif : .so .a dans le dossier lib. .o dans le dossier bin. Les exécutables de test dans le dossier build
 TESTMOVE: $(TESTEXEC)
-	-mv $(DIRMAIN)*.o $(DIRLIB)*.o *.o ./$(DIROBJ)
+	-mv $(DIRMAIN)*/*.o $(DIRLIB)*.o *.o ./$(DIROBJ)
 	-mv *test* *Test* ./$(TESTDIR)/
 
 TESTMKDIR:
@@ -158,7 +157,7 @@ TESTMKDIR:
 
 #Fabrication des executables de TEST
 $(TESTOBJETS): CFLAGS := $(CFLAGS)
-$(TESTOBJETS): $(TESTFICHIERSC) TESTMKDIR
+$(TESTOBJETS): $(TESTDIRC)$(TESTFICHIERSC) TESTMKDIR
 
 #Fabrication du fichier objet main.o
 #$(TESTOBJETS): LDFLAGS := $(CFLAGS)
@@ -173,5 +172,5 @@ $(TESTlibSTATIC): $(TESTlibSTATIC)($(OBJETS))
 #Génération des exécutables de TEST
 $(TESTEXEC): LDFLAGS := $(staticLDFLAGS)
 $(TESTEXEC): LDLIBS := $(staticLDLIBS)
-$(TESTEXEC): $(DIRTEST)$(TESTOBJETS) $(libSTATIC)
+$(TESTEXEC): $(TESTOBJETS) $(libSTATIC)
 	$(CC) -o $@ $@.o $(staticLDFLAGS) $(staticLDLIBS) $(CFLAGS)
