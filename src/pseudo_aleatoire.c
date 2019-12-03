@@ -15,11 +15,11 @@ matrice_t code_longueur_max(matrice_t seq_initiale, matrice_t seq_xor, int longu
 		exit(1);
 	}
 
-	fprintf(stderr, "Sequence initiale: ");
+/*	fprintf(stderr, "Sequence initiale: ");
 	matrice_afficher(seq_initiale);
 	fprintf(stderr, "Polynôme générateur: ");
 	matrice_afficher(seq_xor);
-
+*/
 	int i, j;
 	// Taille de la séquence == nombre de bits (+1 pour \0)
 	matrice_t sequence = matrice_creer(), seq_old = matrice_creer(), seq_new = matrice_creer();
@@ -38,19 +38,19 @@ matrice_t code_longueur_max(matrice_t seq_initiale, matrice_t seq_xor, int longu
 
 	// Calcul des différentes registres intermédiaires (pour la longueur demandée)
 	for (i = 0; i < longueur; i++) {
-		fprintf(stderr, "Matrice old: ");
-		matrice_afficher(seq_old);
+//		fprintf(stderr, "Matrice old: ");
+//		matrice_afficher(seq_old);
 		// Recopie du dernier bit des registres intermédiaires
 //		printf("Valeur ajoutée dans sequence: %d\n", VAL(sequence, 0, i) = VAL(seq_old, 0, seq_old.nb_colonnes - 1));
 
-fprintf(stderr, "Matrice sequence: ");
-matrice_afficher(sequence);
+//fprintf(stderr, "Matrice sequence: ");
+//matrice_afficher(sequence);
 
 		VAL(seq_new, 0, 0) = 0;
 		// Recopie et décalage des bits (sauf le premier qui est calculé avec XOR)
-		for (j = 0; j < seq_old.nb_colonnes - 1; j++) {
+		for (j = 0; j <= seq_old.nb_colonnes - 1; j++) {
 			// Si on doit faire le xor sur le bit
-			if (VAL(seq_xor, 0, j) != 0) {
+			if (VAL(seq_xor, 0, j) == 1) {
 				VAL(seq_new, 0, 0) = XOR(VAL(seq_new, 0, 0), VAL(seq_old, 0, j));
 //				fprintf(stderr, "valeur du xor pour %d %d: %c\n", i, j, XOR(VAL(seq_new, 0, 0), VAL(seq_old, 0, j)));
 //				fprintf(stderr, "Nouvelle valeur de seq_new: %c\n", VAL(seq_new, 0, 0));
@@ -64,8 +64,8 @@ matrice_afficher(sequence);
 
 		}
 
-		fprintf(stderr, "sequence nouvelle :");
-		matrice_afficher(seq_new);
+//		fprintf(stderr, "sequence nouvelle :");
+//		matrice_afficher(seq_new);
 
 		// Recopie du dernier bit du registre actuel
 		VAL(sequence, 0, i) = VAL(seq_old, 0, seq_old.nb_colonnes - 1);
