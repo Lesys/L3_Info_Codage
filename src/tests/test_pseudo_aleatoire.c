@@ -102,10 +102,15 @@ int main() {
 	for (i = 0; i < p_gen_bis.nb_colonnes; i++)
 		p_gen_bis.tab[i] = 0;
 
+	VAL(p_gen_bis, 0, 1) = 1;
 	VAL(p_gen_bis, 0, 2) = 1;
+	VAL(p_gen_bis, 0, 3) = 1;
 	VAL(p_gen_bis, 0, 4) = 1;
 
 	matrice_t gold = code_gold(m1, p_gen, m1, p_gen_bis, 12);
+
+	printf("Affichage matrice gold: ");
+	matrice_afficher(gold);
 
 	matrice_detruire(m1);
 	matrice_detruire(m2);
