@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "../include/matrice.h"
+#include <matrice.h>
 
 // Création d'une nouvelle matrice vide
 //

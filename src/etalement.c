@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../include/etalement.h"
+#include <etalement.h>
 
 // Affichage d'un message étalé
 void msg_etale_afficher(msg_etale_t m) {

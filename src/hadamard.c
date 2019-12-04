@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "../include/matrice.h"
-#include "../include/hadamard.h"
+#include <matrice.h>
+#include <hadamard.h>
 
 // Création de la matrice de hadamard de rang n
 //

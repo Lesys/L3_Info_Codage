@@ -4,8 +4,8 @@
 #include <assert.h>
 #include <time.h>
 
-#include "../include/codeur.h"
-#include "../include/binaire_formate.h"
+#include <codeur.h>
+#include <binaire_formate.h>
 
 int main() {
     bf_t msg = malloc(51);

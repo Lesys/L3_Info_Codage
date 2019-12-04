@@ -1,7 +1,7 @@
-#include "matrice.h"
-
 #ifndef PSEUDO_ALEATOIRE_H
 #define PSEUDO_ALEATOIRE_H
+
+#include "matrice.h"
 
 #define XOR(x, y) x == y ? 0 : 1
 
