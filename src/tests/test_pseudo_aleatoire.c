@@ -79,17 +79,17 @@ int main() {
 
 	matrice_t lm1 = code_longueur_max(m1, p_gen, 12);
 
-	printf("Sequence longueur max pour m1 à 9: \n");
+	printf("Sequence longueur max pour m1 à %d: \n", lm1.nb_colonnes);
 	matrice_afficher(lm1);
 
 	matrice_t lm2 = code_longueur_max(m2, p_gen2, 7);
 
-	printf("Sequence longueur max pour m2 à 4: \n");
+	printf("Sequence longueur max pour m2 à %d: \n", lm2.nb_colonnes);
 	matrice_afficher(lm2);
 
 	matrice_t lm3 = code_longueur_max(m3, p_gen3, 16);
 
-	printf("Sequence longueur max pour m3 à 16: \n");
+	printf("Sequence longueur max pour m3 à %d: \n", lm3.nb_colonnes);
 	matrice_afficher(lm3);
 
 	printf("Fin des tests\n");
@@ -112,6 +112,15 @@ int main() {
 	printf("Affichage matrice gold: ");
 	matrice_afficher(gold);
 
+	matrice_t jpl = code_jpl(lm1, lm2, 20);
+
+	printf("Affichage matrice jpl (lm1 x lm2): ");
+	matrice_afficher(jpl);
+	matrice_t jpl2 = code_jpl(jpl, lm3, 10);
+	printf("Affichage matrice jpl2 (jpl x lm3): ");
+	matrice_afficher(jpl2);
+
+
 	matrice_detruire(m1);
 	matrice_detruire(m2);
 	matrice_detruire(m3);
@@ -122,7 +131,8 @@ int main() {
 	matrice_detruire(lm1);
 	matrice_detruire(lm2);
 	matrice_detruire(lm3);
-	matrice_detruire(gold);
+	matrice_detruire(jpl);
+	matrice_detruire(jpl2);
 
 	return 0;
 }
