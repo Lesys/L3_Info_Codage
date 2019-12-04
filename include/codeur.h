@@ -4,7 +4,7 @@
 #include "../include/binaire_formate.h"
 
 // Nombre de symboles par code (codage arithmétique)
-#define N_PAR_CODE 10
+#define N_PAR_CODE 7
 
 #define ARITHMETIQUE 1
 #define HDBN2 2

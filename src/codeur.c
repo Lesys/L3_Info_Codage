@@ -155,8 +155,6 @@ static int codeur_arithmetique(bf_t data, msg_code_t * res, dictionnaire_t dic) 
         res->u.artm.nb_sym_dernier_code = 0;
     }
 
-    printf("%d\n", res->u.artm.nb_sym_dernier_code);
-
     return 1;
 }
 
