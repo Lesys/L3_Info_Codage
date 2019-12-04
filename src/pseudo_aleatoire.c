@@ -3,10 +3,53 @@
 #include <math.h>
 #include <string.h>
 
-#include "../include/pseudo_aleatoire.h"
-#include "../include/matrice.h"
+#include <pseudo_aleatoire.h>
+#include <matrice.h>
 
 //char* pseudo_aleat_generer
+
+// Génèère un code de gold
+matrice_t code_gold(matrice_t seq_initiale1, matrice_t seq_xor1, matrice_t seq_initiale2, matrice_t seq_xor2, int longueur) {
+/*	printf("Dans gold\n");
+
+	printf("Première matrice initiale: ");
+	matrice_afficher(seq_initiale1);
+	printf("Seconde matrice initiale: ");
+	matrice_afficher(seq_initiale2);
+	printf("Premièr xor initial: ");
+	matrice_afficher(seq_xor1);
+	printf("Second xor initial: ");
+	matrice_afficher(seq_xor2);
+
+*/
+	matrice_t seq_1 = code_longueur_max(seq_initiale1, seq_xor1, longueur);
+	matrice_t seq_2 = code_longueur_max(seq_initiale2, seq_xor2, longueur);
+	int i;
+
+	matrice_t seq_finale = matrice_creer();
+	seq_finale.tab = malloc(sizeof(char) * longueur);
+	seq_finale.nb_lignes = 1;
+	seq_finale.nb_colonnes = longueur;
+/*
+	printf("Première matrice gold: ");
+	matrice_afficher(seq_1);
+	printf("Seconde matrice gold: ");
+	matrice_afficher(seq_2);
+*/
+	for (i = 0; i < longueur; i++)
+		VAL(seq_finale, 0, i) = XOR(VAL(seq_1, 0, i), VAL(seq_2, 0, i));
+
+/*	for (i = 0; i < longueur; i++)
+		printf("%d ", VAL(seq_finale, 0, i));
+
+
+	printf("Sequence finale: ");
+	matrice_afficher(seq_finale);
+
+	printf("Fin gold\n");
+*/
+	return seq_finale;
+}
 
 // Génère un code à longueur maximale
 matrice_t code_longueur_max(matrice_t seq_initiale, matrice_t seq_xor, int longueur) {

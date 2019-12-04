@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../include/binaire_formate.h"
+#include <binaire_formate.h>
 
 #define set_bit(v, p) v |= 1 << p;
 

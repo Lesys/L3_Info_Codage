@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../include/binaire_formate.h"
+#include <binaire_formate.h>
 
 int main() {
 	char * str = "abcdefg";

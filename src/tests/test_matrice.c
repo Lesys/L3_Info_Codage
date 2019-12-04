@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/matrice.h"
+#include <matrice.h>
 
 
 int main() {

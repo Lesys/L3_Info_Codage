@@ -3,35 +3,14 @@
 #include <math.h>
 #include <string.h>
 
-#include "../include/matrice.h"
-#include "../include/hadamard.h"
-#include "../include/etalement.h"
+#include <matrice.h>
+#include <hadamard.h>
+#include <etalement.h>
+#include <binaire_formate.h>
 
 #define NB_USERS_MIN 1
 #define NB_USERS_MAX 16
 #define TAILLE_MAX_MESSAGE 256
-
-char* transformer_message_bit(char* message) {
-	char* bits = malloc(sizeof(*bits) * strlen(message) * 8 + 1);
-//fprintf(stderr, "%d caractères alloués\n", sizeof(*bits) * (strlen(message) + 1) * 8);
-	int i, j;
-	for (i = 0; i < (strlen(message) + 1) * 8 && message[i] != '\0'; i++) {
-		for (j = 7; j >= 0; j--) {
-//			fprintf(stderr, "cara: %c, binaire: %c, indice bits: %d\n", message[i], message[i] & (1 << j)? '1' : '0', i * 8 + (7 - j));
-			bits[i * 8 + (7 - j)] = (message[i] & (1 << j)? '1' : '0');
-//			fprintf(stderr, "Valeur dans bits: %c\n", bits[i * 8 + (7 - j)]);
-		}
-
-		bits[(i + 1) * 8] = '\0';
-		printf("%s ", bits + i * 8);
-	}
-
-	printf("Message totalement binaire: %s\n", bits);
-
-	return bits;
-}
-
-
 
 int main(int argc, char* argv[]) {
 	if (argc != 3) {
@@ -65,21 +44,22 @@ int main(int argc, char* argv[]) {
 	hadamard_matrice(num_matrice, &hadam_matrice);
 	matrice_afficher(hadam_matrice);
 
-	char* message = malloc(sizeof(*message) * TAILLE_MAX_MESSAGE);
+/*	char* message = malloc(sizeof(*message) * TAILLE_MAX_MESSAGE);
 	printf("Message à envoyer: ");
 	scanf("%[^\n]", message);
 	message = realloc(message, strlen(message) + 1);
-
+*/
 	// Récup du message d'un utilisateur: (message_etale * (sequence_utilisateur)T)/nb_lignes
-	char* bits = transformer_message_bit(message);
+	bf_t bits = transformer_donnee_bit("a", 1);
+	bf_t bits2 = transformer_donnee_bit("b", 1);
+	bf_t bits3 = transformer_donnee_bit("c", 1);
 //	fprintf(stderr, "\nTransformation en bits: %s\n", bits);
 
 	// Test etalement
-	msg_etale_t m, m1, m2;
+	msg_etale_t m, m1, m2, m3;
 /*
 	matrice_t hadam;
 	printf("\n\nTest Etalement :\n\n");
-
 	hadamard_matrice(3, &hadam);
 	m1 = etalement("101", hadam, 1);
 	printf("Message 1 :\n101\nMessage 1 etale :\n");
@@ -94,29 +74,41 @@ int main(int argc, char* argv[]) {
 	printf("%s\n", desetalement(m, hadam, 1));
 	printf("Message 2 desetale :\n");
 	printf("%s\n", desetalement(m, hadam, 3));
-
 */
 
 	m1 = etalement(bits, hadam_matrice, num_user);
 //	msg_etale_afficher(m1);
 
 //	printf("Ajout du même message\n");
-	m2 = etalement(bits, hadam_matrice, 0);
+	m2 = etalement(bits2, hadam_matrice, 1);
+	m3 = etalement(bits3, hadam_matrice, 2);
 //	msg_etale_afficher(m2);
 	m = msg_etale_ajouter(m1, m2);
+	m = msg_etale_ajouter(m, m3);
 	printf("Message final: ");
 	msg_etale_afficher(m);
 
 	printf("Message 1 desetale :\n");
 	printf("%s\n", desetalement(m, hadam_matrice, num_user));
 
+	char* msg1 = transformer_bit_donnee(desetalement(m, hadam_matrice, num_user));
+	char* msg2 = transformer_bit_donnee(desetalement(m, hadam_matrice, 1));
+	char* msg3 = transformer_bit_donnee(desetalement(m, hadam_matrice, 2));
+
+	printf("Message 1: %s\nMessage 2: %s\nMessage 3: %s\n", msg1, msg2, msg3);
+
 	msg_etale_detruire(m);
 	msg_etale_detruire(m1);
 	msg_etale_detruire(m2);
+	free(msg1);
+	free(msg2);
+	free(msg3);
+	free(bits);
+	free(bits2);
+	free(bits3);
+//	free(message);
 
 	matrice_detruire(hadam_matrice);
 
-	free(bits);
-	free(message);
 	return 0;
 }

@@ -4,8 +4,8 @@
 #include <stdarg.h>
 #include <math.h>
 
-#include "../include/codeur.h"
-#include "../include/binaire_formate.h"
+#include <codeur.h>
+#include <binaire_formate.h>
 
 void msg_code_detruire(msg_code_t msg) {
     if (msg.type >= HDBN2 && msg.type <= HDBN4) {

@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/matrice.h"
-#include "../include/pseudo_aleatoire.h"
+#include <matrice.h>
+#include <pseudo_aleatoire.h>
 
 
 int main() {
@@ -49,8 +49,11 @@ int main() {
 	for (i = 0; i < p_gen.nb_colonnes; i++)
 		p_gen.tab[i] = 0;
 
-	VAL(p_gen, 0, 1) = 1;
+	VAL(p_gen, 0, 2) = 1;
 	VAL(p_gen, 0, 4) = 1;
+
+//printf("matrice poly 1: ");
+//matrice_afficher(p_gen);
 
 	matrice_t p_gen2 = matrice_creer();
 	p_gen2.nb_lignes = 1;
@@ -58,7 +61,10 @@ int main() {
 	p_gen2.tab = malloc(sizeof(*(p_gen2.tab)) * p_gen2.nb_lignes * p_gen2.nb_colonnes);
 
 	for (i = 0; i < p_gen2.nb_colonnes; i++)
-		p_gen2.tab[i] = 1;
+		p_gen2.tab[i] = 0;
+
+	VAL(p_gen2, 0, 0) = 1;
+	VAL(p_gen2, 0, 2) = 1;
 
 	matrice_t p_gen3 = matrice_creer();
 	p_gen3.nb_lignes = 1;
@@ -71,12 +77,12 @@ int main() {
 	VAL(p_gen3, 0, 0) = 1;
 	VAL(p_gen3, 0, 2) = 1;
 
-	matrice_t lm1 = code_longueur_max(m1, p_gen, 9);
+	matrice_t lm1 = code_longueur_max(m1, p_gen, 12);
 
 	printf("Sequence longueur max pour m1 à 9: \n");
 	matrice_afficher(lm1);
 
-	matrice_t lm2 = code_longueur_max(m2, p_gen2, 4);
+	matrice_t lm2 = code_longueur_max(m2, p_gen2, 7);
 
 	printf("Sequence longueur max pour m2 à 4: \n");
 	matrice_afficher(lm2);
@@ -88,12 +94,35 @@ int main() {
 
 	printf("Fin des tests\n");
 
+	matrice_t p_gen_bis = matrice_creer();
+	p_gen_bis.nb_lignes = 1;
+	p_gen_bis.nb_colonnes = 5;
+	p_gen_bis.tab = malloc(sizeof(*(p_gen_bis.tab)) * p_gen_bis.nb_lignes * p_gen_bis.nb_colonnes);
+
+	for (i = 0; i < p_gen_bis.nb_colonnes; i++)
+		p_gen_bis.tab[i] = 0;
+
+	VAL(p_gen_bis, 0, 1) = 1;
+	VAL(p_gen_bis, 0, 2) = 1;
+	VAL(p_gen_bis, 0, 3) = 1;
+	VAL(p_gen_bis, 0, 4) = 1;
+
+	matrice_t gold = code_gold(m1, p_gen, m1, p_gen_bis, 12);
+
+	printf("Affichage matrice gold: ");
+	matrice_afficher(gold);
+
 	matrice_detruire(m1);
 	matrice_detruire(m2);
 	matrice_detruire(m3);
+	matrice_detruire(p_gen);
+	matrice_detruire(p_gen2);
+	matrice_detruire(p_gen3);
+	matrice_detruire(p_gen_bis);
 	matrice_detruire(lm1);
 	matrice_detruire(lm2);
 	matrice_detruire(lm3);
+	matrice_detruire(gold);
 
 	return 0;
 }

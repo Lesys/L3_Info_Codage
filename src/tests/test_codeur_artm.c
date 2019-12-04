@@ -3,8 +3,8 @@
 #include <string.h>
 #include <assert.h>
 
-#include "../include/codeur.h"
-#include "../include/binaire_formate.h"
+#include <codeur.h>
+#include <binaire_formate.h>
 
 int main() {
     bf_t w = transformer_donnee_bit("w", 1);
