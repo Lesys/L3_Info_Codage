@@ -162,11 +162,13 @@ static int codeur_arithmetique(bf_t data, msg_code_t * res, dictionnaire_t dic) 
 
 int codeur(int encoder_type, bf_t data, msg_code_t * res, ...) {
     va_list valist;
+    dictionnaire_t dic;
     switch (encoder_type) {
         case 1:
             va_start(valist, res);
-            return codeur_arithmetique(data, res, va_arg(valist, dictionnaire_t));
+            dic = va_arg(valist, dictionnaire_t);
             va_end(valist);
+            return codeur_arithmetique(data, res, dic);
             break;
         case 2:
         case 3:
