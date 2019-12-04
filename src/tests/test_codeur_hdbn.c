@@ -5,12 +5,13 @@
 #include <time.h>
 
 #include "../include/codeur.h"
+#include "../include/binaire_formate.h"
 
 int main() {
-    char msg[51];
+    bf_t msg = malloc(51);
     msg[50] = '\0';
     msg_code_t code;
-    char * decode;
+    bf_t decode;
 
     srand(time(NULL));
 
