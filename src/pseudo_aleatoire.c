@@ -8,7 +8,29 @@
 
 //char* pseudo_aleat_generer
 
-// Génèère un code de gold
+// Génère un code JPL (pour faire plusieurs fois, reprendre le résultat et ajouter la nouvelle séquence)
+matrice_t code_jpl(matrice_t seq_1, matrice_t seq_2, int longueur) {
+	// S'ils ne sont pas premier entre eux
+	if (seq_1.nb_colonnes % seq_2.nb_colonnes == 0 || seq_2.nb_colonnes % seq_1.nb_colonnes == 0) {
+		fprintf(stderr, "Erreur code_jpl: longueur de la première séquence non première avec longueur de la seconde séquence (%d et %d)\n", seq_1.nb_colonnes, seq_2.nb_colonnes);
+		exit(1);
+	}
+
+//	int n = ppcm(seq_1.nb_colonnes, seq_2.nb_colonnes);
+	int i;
+	matrice_t seq_finale = matrice_creer();
+	seq_finale.tab = malloc(sizeof(char) * longueur);
+	seq_finale.nb_lignes = 1;
+	seq_finale.nb_colonnes = longueur;
+
+	// Prend le XOR de la valeur de la première séquence (répétition simulée avec le %) et de la seconde séquence (pareil)
+	for (i = 0; i < longueur; i++)
+		VAL(seq_finale, 0, i) = XOR(VAL(seq_1, 0, i % seq_1.nb_colonnes), VAL(seq_2, 0, i % seq_2.nb_colonnes));
+
+	return seq_finale;
+}
+
+// Génère un code de gold
 matrice_t code_gold(matrice_t seq_initiale1, matrice_t seq_xor1, matrice_t seq_initiale2, matrice_t seq_xor2, int longueur) {
 /*	printf("Dans gold\n");
 
@@ -54,7 +76,7 @@ matrice_t code_gold(matrice_t seq_initiale1, matrice_t seq_xor1, matrice_t seq_i
 // Génère un code à longueur maximale
 matrice_t code_longueur_max(matrice_t seq_initiale, matrice_t seq_xor, int longueur) {
 	if (seq_initiale.nb_colonnes != seq_xor.nb_colonnes) {
-		fprintf(stderr, "Erreur: longueur de la séquence initiale différente du polynome de génération\n");
+		fprintf(stderr, "Erreur code_longueur_max: longueur de la séquence initiale différente du polynome de génération\n");
 		exit(1);
 	}
 
