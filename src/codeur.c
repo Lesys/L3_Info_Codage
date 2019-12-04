@@ -234,8 +234,11 @@ static bf_t decodeur_arithmetique(msg_code_t data) {
             free(res);
             return NULL;
         }
+        
         strcpy(res + (i * taille_symbole), dic.symboles[ind_sym]);
         data.u.artm.codes[ind] = (data.u.artm.codes[ind] - dic.bornes_basses[ind_sym]) / (dic.bornes_hautes[ind_sym] - dic.bornes_basses[ind_sym]);
+
+        n_decode++;
     }
 
     res[nb_symboles * taille_symbole] = '\0';
