@@ -34,7 +34,7 @@ DIRBUILD := build/
 #Noms des librairies statiques et dynamiques
 DIRLIB := lib/
 LINKNAME ?= $(NOMPROGPRINC)
-libSTATIC := lib$(LINKNAME).a
+libSTATIC := $(DIRLIB)lib$(LINKNAME).a
 MAJEUR ?= .0
 MINEUR ?= .1
 CORRECTION ?= .0
