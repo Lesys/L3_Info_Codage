@@ -16,6 +16,7 @@ typedef struct dictionnaire_s {
     char ** symboles;
     double * bornes_basses;
     double * bornes_hautes;
+    int n_par_code;
 } dictionnaire_t;
 
 typedef struct msg_code_s {
@@ -36,7 +37,9 @@ typedef struct msg_code_s {
 
 void msg_code_detruire(msg_code_t msg);
 
-dictionnaire_t dictionnaire_creer(int nb_symboles, ...);
+dictionnaire_t dictionnaire_creer(int nb_symboles, int n_par_code, ...);
+
+void dictionnaire_detruire(dictionnaire_t dic);
 
 void dictionnaire_afficher(dictionnaire_t dic);
 

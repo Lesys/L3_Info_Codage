@@ -55,37 +55,52 @@ int main() {
     dic.symboles = realloc(dic.symboles, sizeof(bf_t) * dic.nb_symboles);
     dic.bornes_basses = realloc(dic.bornes_basses, sizeof(double) * dic.nb_symboles);
     dic.bornes_hautes = realloc(dic.bornes_hautes, sizeof(double) * dic.nb_symboles);
+    printf("Dictionnaire généré : \n");
+    dictionnaire_afficher(dic);
 
     // Transformation du fichier
     bf_t fichier_source_f = transformer_donnee_bit(fichier_source, nb_char);
 
-    // Compression
+    int cont = 1;
     msg_code_t code;
-    if (!codeur(1, fichier_source_f, &code, dic)) {
-        fprintf(stderr, "Erreur codeur\n");
-        exit(-1);
+    char * fichier_decode;
+    dic.n_par_code = 2;
+
+    while (cont) {
+
+        printf("\nEssai avec codage de %d caractères par double :\n", dic.n_par_code);
+
+        // Compression
+        if (!codeur(1, fichier_source_f, &code, dic)) {
+            fprintf(stderr, "Erreur codeur\n");
+            exit(-1);
+        }
+
+        // Decompression
+        bf_t fichier_decode_f = decodeur(code);
+        if (fichier_decode_f == NULL) {
+            fprintf(stderr, "Erreur decodeur\n");
+            exit(-1);
+        }
+        msg_code_detruire(code);
+        fichier_decode = transformer_bit_donnee(fichier_decode_f);
+        free(fichier_decode_f);
+
+        if (memcmp(fichier_source, fichier_decode, nb_char)) {
+            printf("\tNombre de caractères codés par un double trop grand -> erreur de précision\n");
+            cont = 0;
+        }
+        else {
+            printf("\tTaille fichier source : %ld octets\n", nb_char);
+            printf("\tTaille ficher compresse : ~%ld octets + taille dictionnaire\n", (nb_char % dic.n_par_code == 0 ? nb_char / dic.n_par_code : nb_char / dic.n_par_code + 1) * 4);
+        }
+
+        free(fichier_decode);
+        dic.n_par_code++;
+
     }
 
-    // Decompression
-    bf_t fichier_decode_f = decodeur(code);
-    if (fichier_decode_f == NULL) {
-        fprintf(stderr, "Erreur decodeur\n");
-        exit(-1);
-    }
-    char * fichier_decode = transformer_bit_donnee(fichier_decode_f);
-
-    // !!! LE \0 N'EST NI ENCODE NI DECODE
-    fichier_decode = realloc(fichier_decode, nb_char + 1);
-    fichier_decode[nb_char] = '\0';
-
-    if (memcmp(fichier_source, fichier_decode, nb_char)) {
-        printf("source != decode, vérifier la constante N_PAR_CODE\n");
-        assert(0);
-    }
-    else {
-        printf("Dictionnaire généré : \n");
-        dictionnaire_afficher(dic);
-        printf("\nTaille fichier source : %ld octets\n", nb_char);
-        printf("Taille ficher compresse : ~%ld octets + taille dictionnaire\n", (nb_char % N_PAR_CODE == 0 ? nb_char / N_PAR_CODE : nb_char / N_PAR_CODE + 1) * 4);
-    }
+    free(fichier_source);
+    free(fichier_source_f);
+    dictionnaire_detruire(dic);
 }

@@ -9,13 +9,21 @@
 
 void msg_code_detruire(msg_code_t msg) {
     if (msg.type >= HDBN2 && msg.type <= HDBN4) {
-        free(msg.u.hdbn.tab);
+        if (msg.u.hdbn.tab) {
+            free(msg.u.hdbn.tab);
+        }
+    }
+    if (msg.type == ARITHMETIQUE) {
+        if (msg.u.artm.codes) {
+            free(msg.u.artm.codes);
+        }
     }
 }
 
-dictionnaire_t dictionnaire_creer(int nb_symboles, ...) {
+dictionnaire_t dictionnaire_creer(int nb_symboles, int n_par_code, ...) {
     dictionnaire_t dic;
     dic.nb_symboles = nb_symboles;
+    dic.n_par_code = n_par_code;
     dic.symboles = malloc(sizeof(bf_t) * nb_symboles);
     dic.bornes_basses = malloc(sizeof(double) * nb_symboles);
     dic.bornes_hautes = malloc(sizeof(double) * nb_symboles);
@@ -23,7 +31,7 @@ dictionnaire_t dictionnaire_creer(int nb_symboles, ...) {
     char * symbole;
 
     va_list valist;
-    va_start(valist, nb_symboles);
+    va_start(valist, n_par_code);
 
     for (int i = 0; i < nb_symboles; i++) {
         symbole = va_arg(valist, bf_t);
@@ -36,6 +44,21 @@ dictionnaire_t dictionnaire_creer(int nb_symboles, ...) {
     va_end(valist);
 
     return dic;
+}
+
+void dictionnaire_detruire(dictionnaire_t dic) {
+    if (dic.symboles) {
+        for (int i = 0; i < dic.nb_symboles; i++) {
+            free(dic.symboles[i]);
+        }
+        free(dic.symboles);
+    }
+    if (dic.symboles) {
+        free(dic.bornes_basses);
+    }
+    if (dic.symboles) {
+        free(dic.bornes_hautes);
+    }
 }
 
 void dictionnaire_afficher(dictionnaire_t dic) {
@@ -112,10 +135,11 @@ static int dictionnaire_chercher(bf_t data, int taille_symbole, dictionnaire_t d
 static int codeur_arithmetique(bf_t data, msg_code_t * res, dictionnaire_t dic) {
     res->type = 1;
     res->u.artm.dic = dic;
+    int n_par_code = dic.n_par_code;
     int taille_symbole = strlen(dic.symboles[0]);
     int taille_data = strlen(data);
     int nb_symboles = taille_data / taille_symbole;
-    res->u.artm.nb_codes = (nb_symboles % N_PAR_CODE == 0 ? nb_symboles / N_PAR_CODE : nb_symboles / N_PAR_CODE + 1);
+    res->u.artm.nb_codes = (nb_symboles % n_par_code == 0 ? nb_symboles / n_par_code : nb_symboles / n_par_code + 1);
     res->u.artm.codes = malloc(sizeof(double) * res->u.artm.nb_codes);
 
     int n_code = 0;
@@ -127,7 +151,7 @@ static int codeur_arithmetique(bf_t data, msg_code_t * res, dictionnaire_t dic) 
     double bb;
 
     for (int i = 0; i < nb_symboles; i++) {
-        if (n_code == N_PAR_CODE) {
+        if (n_code == n_par_code) {
             res->u.artm.codes[ind] = borne_inf + (borne_sup - borne_inf)/2;
             n_code = 0;
             ind++;
@@ -147,8 +171,8 @@ static int codeur_arithmetique(bf_t data, msg_code_t * res, dictionnaire_t dic) 
         n_code++;
     }
 
-    if (n_code != N_PAR_CODE) {
-        res->u.artm.codes[ind] = borne_inf + (borne_sup - borne_inf)/2;
+    res->u.artm.codes[ind] = borne_inf + (borne_sup - borne_inf)/2;
+    if (n_code != n_par_code) {
         res->u.artm.nb_sym_dernier_code = n_code;
     }
     else {
@@ -215,8 +239,9 @@ static int dictionnaire_chercher_valeur(double val, dictionnaire_t dic) {
 
 static bf_t decodeur_arithmetique(msg_code_t data) {
     dictionnaire_t dic = data.u.artm.dic;
+    int n_par_code = dic.n_par_code;
     int taille_symbole = strlen(dic.symboles[0]);
-    int nb_symboles = (data.u.artm.nb_codes - (data.u.artm.nb_sym_dernier_code == 0 ? 0 : 1)) * N_PAR_CODE + data.u.artm.nb_sym_dernier_code;
+    int nb_symboles = (data.u.artm.nb_codes - (data.u.artm.nb_sym_dernier_code == 0 ? 0 : 1)) * n_par_code + data.u.artm.nb_sym_dernier_code;
     bf_t res = malloc(nb_symboles * taille_symbole + 1);
 
     int n_decode = 0;
@@ -224,7 +249,7 @@ static bf_t decodeur_arithmetique(msg_code_t data) {
     int ind_sym;
     
     for (int i = 0; i < nb_symboles; i++) {
-        if (n_decode == N_PAR_CODE) {
+        if (n_decode == n_par_code) {
             n_decode = 0;
             ind++;
         }
