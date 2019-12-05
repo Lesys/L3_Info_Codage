@@ -47,14 +47,14 @@ pthread_t create(void* (*fonction)(void* arg), void* arg) {
 	return thread1;
 }
 
-void invoke(pid_t pid) {
+void invoke(pthread_t pid) {
 	kill(pid, SIGCONT);
 }
 
-void destroy(pid_t pid) {
+void destroy(pthread_t pid) {
 	kill(pid, SIGKILL);
 }
 
-void quit(pid_t pid) {
+void quit(pthread_t pid) {
 	kill(pid, SIGTERM);
 }
