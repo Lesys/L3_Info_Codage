@@ -19,6 +19,7 @@ pthread_t create(void* (*fonction)(void* arg), void* arg) {
 		exit(1);
 	}
 
+	printf("Création pthread %ld\n", thread1);
 	return thread1;
 }
 
@@ -42,7 +43,7 @@ void resume(pthread_t pid) {
 	kill(pid, SIGCONT);
 }
 
-void wait(pthread_t pid) {
+void wait2(pthread_t pid) {
 	kill(pid, SIGSTOP);
 }
 
