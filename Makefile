@@ -19,7 +19,7 @@ VPATH = lib:build:bin:src:include:src/tests
 DIROBJ := bin/
 CFLAGS += -g -lm -lpthread -std=c99 -Wall -I./include -I./src
 #-L./lib/SDL/lib -I./lib/SDL/include -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image -fPIC -Wall -std=c99
-OBJETS = hadamard.o matrice.o etalement.o codeur.o pseudo_aleatoire.o binaire_formate.o
+OBJETS = hadamard.o matrice.o etalement.o codeur.o pseudo_aleatoire.o binaire_formate.o agent_life_cycle.o
 FICHIERSC = $(OBJETS:.o=.c)
 
 #Nom du programme principal
@@ -45,7 +45,7 @@ REALNAME := $(SONAME)$(MINEUR)$(CORRECTION)
 #Variables pour la confection des executables de test :
 TESTDIR := $(DIRBUILD)test/
 TESTDIRC := src/tests/
-TESTOBJETS = test_matrice.o test_pseudo_aleatoire.o test_binaire_formate.o test_codeur_artm.o test_codeur_hdbn.o test_compression_arithmetique.o
+TESTOBJETS = test_matrice.o test_pseudo_aleatoire.o test_binaire_formate.o test_codeur_artm.o test_codeur_hdbn.o test_compression_arithmetique.o test_agent_life_cycle.o
 TESTFICHIERSC = $(TESTOBJETS:.o=.c)
 TESTEXEC = $(TESTOBJETS:%.o=%)
 #TESTSTATIC = test_blokus.static
