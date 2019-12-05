@@ -7,10 +7,8 @@ enable_testing()
 #-------#
 
 SET(GCC_COVERAGE_COMPILE_FLAGS "-g")
-SET(GCC_COVERAGE_LINK_FLAGS    "-lm")
 
 SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
-SET(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${GCC_COVERAGE_LINK_FLAGS}")
 
 #---------#
 # Headers #
@@ -38,8 +36,8 @@ file(GLOB TEST_SOURCES "src/tests/*.c")
 
 foreach( sourcefile ${TARGETS_SOURCES} )
 	get_filename_component(name ${sourcefile} NAME_WE)
-    add_executable( ${name} ${sourcefile} )
-    target_link_libraries(${name} common)
+    add_executable( ${name} ${sourcefile} $<TARGET_OBJECTS:common>)
+	target_link_libraries(${name} m)
 endforeach( sourcefile ${TARGETS_SOURCES} )
 
 
@@ -49,8 +47,8 @@ endforeach( sourcefile ${TARGETS_SOURCES} )
 
 foreach( testsourcefile ${TEST_SOURCES} )
 	get_filename_component( testname ${testsourcefile} NAME_WE )
-    add_executable( ${testname} ${testsourcefile} )
-    target_link_libraries( ${testname} common )
+    add_executable( ${testname} ${testsourcefile} $<TARGET_OBJECTS:common>)
     set_target_properties( ${testname} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/tests" )
     add_test( ${testname} ${CMAKE_BINARY_DIR}/tests/${testname} )
+	target_link_libraries(${testname} m)
 endforeach( testsourcefile ${TEST_SOURCES} )
