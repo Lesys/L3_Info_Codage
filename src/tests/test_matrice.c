@@ -77,9 +77,10 @@ int main() {
 
 
 
-	printf("Valeur de M1[2][3]: %d", VAL(m1, 2, 5));
+//	printf("Valeur de M1[2][3]: %d", VAL(m1, 2, 5));
 	matrice_detruire(m1);
 	matrice_detruire(m2);
+	matrice_detruire(m3);
 	matrice_detruire(m_mult);
 	matrice_detruire(m3m3);
 	matrice_detruire(id);

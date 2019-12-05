@@ -131,6 +131,7 @@ int main() {
 	matrice_detruire(lm1);
 	matrice_detruire(lm2);
 	matrice_detruire(lm3);
+	matrice_detruire(gold);
 	matrice_detruire(jpl);
 	matrice_detruire(jpl2);
 

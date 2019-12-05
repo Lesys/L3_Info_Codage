@@ -70,6 +70,9 @@ matrice_t code_gold(matrice_t seq_initiale1, matrice_t seq_xor1, matrice_t seq_i
 
 	printf("Fin gold\n");
 */
+
+	matrice_detruire(seq_1);
+	matrice_detruire(seq_2);
 	return seq_finale;
 }
 
@@ -143,7 +146,7 @@ matrice_t code_longueur_max(matrice_t seq_initiale, matrice_t seq_xor, int longu
 
 	// Recopie du dernier bit du dernier registre intermédiaire
 	VAL(sequence, 0, i) = VAL(seq_old, 0, seq_old.nb_colonnes - 1);
-	VAL(sequence, 0, longueur + 1) = '\0';
+//	VAL(sequence, 0, longueur + 1) = '\0';
 
 	matrice_detruire(seq_old);
 	matrice_detruire(seq_new);
