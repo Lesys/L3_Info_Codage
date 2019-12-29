@@ -13,7 +13,7 @@ void msg_etale_afficher(msg_etale_t m);
 
 msg_etale_t msg_etale_ajouter(msg_etale_t a, msg_etale_t b);
 
-void msg_etale_detruire(msg_etale_t m);
+void msg_etale_detruire(msg_etale_t * m);
 
 msg_etale_t etalement(char * bits, matrice_t hadamard, int num_utilisateur);
 

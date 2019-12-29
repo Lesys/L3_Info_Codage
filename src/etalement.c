@@ -18,27 +18,32 @@ void msg_etale_afficher(msg_etale_t m) {
 msg_etale_t msg_etale_ajouter(msg_etale_t a, msg_etale_t b) {
 	msg_etale_t res;
 
-	if (a.taille_sequence != b.taille_sequence || a.nb_sequences != b.nb_sequences) {
+	if (a.taille_sequence != b.taille_sequence) {
 		res.nb_sequences = 0;
 		return res;
 	}
 
-	res.nb_sequences = a.nb_sequences;
+	res.nb_sequences = a.nb_sequences > b.nb_sequences ? a.nb_sequences : b.nb_sequences;
 	res.taille_sequence = a.taille_sequence;
 	res.sequences = malloc(sizeof(char) * res.taille_sequence * res.nb_sequences);
 
+	int len_a = a.nb_sequences * a.taille_sequence;
+	int len_b = b.nb_sequences * b.taille_sequence;
+
 	for (int i = 0; i < res.nb_sequences * res.taille_sequence; i++) {
-		res.sequences[i] = a.sequences[i] + b.sequences[i];
+		res.sequences[i] = (i < len_a ? a.sequences[i] : 0) + (i < len_b ? b.sequences[i] : 0);
 	}
 
 	return res;
 } 
 
 // Destruction d'un message étalé
-void msg_etale_detruire(msg_etale_t m) {
-	if (m.sequences) {
-		free(m.sequences);
+void msg_etale_detruire(msg_etale_t * m) {
+	if (m->sequences) {
+		free(m->sequences);
 	}
+	m->sequences = NULL;
+	m->nb_sequences = 0;
 }
 
 // Etalement d'un message
