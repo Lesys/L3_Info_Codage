@@ -10,6 +10,7 @@
 
 #define MAX_BUFFER 2048
 
+
 pthread_t pid[3];
 
 typedef struct io_s {
@@ -73,27 +74,27 @@ void * recepteur(void * args) {
 }
 
 int main() {
-    int p[4][2];
+	int p[4][2];
 
-    for (int i = 0; i < 4; i++) {
-    	pipe(p[i]);
-    	fcntl(p[i][0], F_SETFL, fcntl(p[i][0], F_GETFL) | O_NONBLOCK);
-    }
+	for (int i = 0; i < 4; i++) {
+		pipe(p[i]);
+		fcntl(p[i][0], F_SETFL, fcntl(p[i][0], F_GETFL) | O_NONBLOCK);
+	}
 
-    io_t io_emetteur, io_canal, io_recepteur;
-    io_emetteur.entree = p[0][0];
-    io_emetteur.sortie = p[1][1];
-    io_canal.entree = p[1][0];
-    io_canal.sortie = p[2][1];
-    io_recepteur.entree = p[2][0];
-    io_recepteur.sortie = p[3][1];
+	io_t io_emetteur, io_canal, io_recepteur;
+	io_emetteur.entree = p[0][0];
+	io_emetteur.sortie = p[1][1];
+	io_canal.entree = p[1][0];
+	io_canal.sortie = p[2][1];
+	io_recepteur.entree = p[2][0];
+	io_recepteur.sortie = p[3][1];
 
-    int entree = p[0][1];
-    int sortie = p[3][0];
+	int entree = p[0][1];
+	int sortie = p[3][0];
 
 	pid[0] = create(emetteur, &io_emetteur);
-	pid[1] = create(canal, &io_canal);
-	pid[2] = create(recepteur, &io_recepteur);
+	pid[1] = create(emetteur, &io_canal);
+	pid[2] = create(emetteur, &io_recepteur);
 
 	char buffer[MAX_BUFFER];
 	int ind_buffer = 0;
