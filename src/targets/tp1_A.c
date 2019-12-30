@@ -97,9 +97,9 @@ int main(int argc, char* argv[]) {
 
 	printf("Message 1: %s\nMessage 2: %s\nMessage 3: %s\n", msg1, msg2, msg3);
 
-	msg_etale_detruire(m);
-	msg_etale_detruire(m1);
-	msg_etale_detruire(m2);
+	msg_etale_detruire(&m);
+	msg_etale_detruire(&m1);
+	msg_etale_detruire(&m2);
 	free(msg1);
 	free(msg2);
 	free(msg3);
