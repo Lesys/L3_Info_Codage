@@ -6,12 +6,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
+#include <signal.h>
 
 #include <binaire_formate.h>
 #include <etalement.h>
 #include <hadamard.h>
 #include <agent_life_cycle.h>
 #include <codeur.h>
+
 
 
 pthread_t pid[3];
@@ -45,6 +47,7 @@ typedef struct io_canal_hdbn_s {
 } io_canal_hdbn_t;
 
 void * emetteur_etalement(void * args) {
+signal(SIGSTOP, stop_handler);
 	io_emetteur_etalement_t * io = args;
 	int taille;
 	char buffer[11];
@@ -72,6 +75,7 @@ void * emetteur_etalement(void * args) {
 }
 
 void * canal_etalement(void * args) {
+signal(SIGSTOP, stop_handler);
 	io_canal_etalement_t * io = args;
 	msg_etale_t m[4];
 	msg_etale_t tmp, res;
@@ -116,6 +120,7 @@ void * canal_etalement(void * args) {
 
 
 void * recepteur_etalement(void * args) {
+signal(SIGSTOP, stop_handler);
 	io_recepteur_etalement_t * io = args;
 	msg_etale_t m;
 	m.taille_sequence = 4;
@@ -145,6 +150,7 @@ void * recepteur_etalement(void * args) {
 }
 
 void * emetteur_hdbn(void * args) {
+signal(SIGSTOP, stop_handler);
 	io_emetteur_hdbn_t * io = args;
 
 	int taille;
@@ -171,6 +177,7 @@ void * emetteur_hdbn(void * args) {
 }
 
 void * canal_hdbn(void * args) {
+signal(SIGSTOP, stop_handler);
 	io_canal_hdbn_t * io = args;
 
 	int taille;
@@ -188,6 +195,7 @@ void * canal_hdbn(void * args) {
 
 
 void * recepteur_hdbn(void * args) {
+signal(SIGSTOP, stop_handler);
 	io_recepteur_hdbn_t * io = args;
 
 	bf_t bf;
@@ -209,7 +217,11 @@ void * recepteur_hdbn(void * args) {
 }
 
 int main() {
+	signal(SIGSTOP, stop_handler);
+
 	srand(time(NULL));
+
+	pthread_t tab_thread_rec[4], tab_thread_emt[4];
 
 	int p[10][2];
 
@@ -230,12 +242,12 @@ int main() {
 		io_emetteur_etalement[i].entree_canal = p[i][1];
 		io_emetteur_etalement[i].num_utilisateur = i;
 
-		create(emetteur_etalement, io_emetteur_etalement + i);
+		tab_thread_emt[i] = create(emetteur_etalement, io_emetteur_etalement + i);
 
 		io_recepteur_etalement[i].sortie_canal = p[i+4][0];
 		io_recepteur_etalement[i].num_utilisateur = i;
 
-		create(recepteur_etalement, io_recepteur_etalement + i);
+		tab_thread_rec[i] = create(recepteur_etalement, io_recepteur_etalement + i);
 
 		io_canal_etalement.entrees[i] = p[i][0];
 		io_canal_etalement.sorties[i] = p[i+4][1];
@@ -252,6 +264,13 @@ int main() {
 	create(emetteur_hdbn, &io_emetteur_hdbn);
 	create(canal_hdbn, &io_canal_hdbn);
 	create(recepteur_hdbn, &io_recepteur_hdbn);
+
+/*	fprintf(stderr, "On bloque %ld\n", tab_thread_rec[1]);
+
+	suspend(tab_thread_rec[1]);
+	sleep(10);
+	resume(tab_thread_rec[1]);
+*/
 
 	sleep(5);
 }

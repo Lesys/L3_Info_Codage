@@ -1,5 +1,7 @@
 #include <pthread.h>
 
+void stop_handler(int pid);
+
 pthread_t create(void* (*fonction)(void* arg), void* arg);
 
 void invoke(pthread_t pid);
