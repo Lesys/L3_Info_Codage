@@ -58,7 +58,7 @@ libLDFLAGS = -L.
 libLDLIBS = -lc
 
 #Options pour l'archive
-ARFLAGS = rcs
+ARFLAGS = rcs -U
 
 #Options des programmes en statique et dynamique
 STATIC = $(NOMPROGPRINC).static
