@@ -265,12 +265,18 @@ int main() {
 	create(canal_hdbn, &io_canal_hdbn);
 	create(recepteur_hdbn, &io_recepteur_hdbn);
 
-/*	fprintf(stderr, "On bloque %ld\n", tab_thread_rec[1]);
+	fprintf(stderr, "On bloque %ld\n", tab_thread_rec[3]);
 
-	suspend(tab_thread_rec[1]);
-	sleep(10);
-	resume(tab_thread_rec[1]);
-*/
+	suspend(tab_thread_rec[3]);
+	sleep(3);
+	fprintf(stderr, "On relance %ld\n", tab_thread_rec[3]);
+	resume(tab_thread_rec[3]);
+
+	fprintf(stderr, "On bloque %ld\n", tab_thread_emt[1]);
+	wait2(tab_thread_emt[1]);
+	sleep(2);
+	fprintf(stderr, "On relance %ld\n", tab_thread_emt[1]);
+	wake_up(tab_thread_emt[1]);
 
 	sleep(5);
 }

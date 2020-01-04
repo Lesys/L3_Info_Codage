@@ -42,19 +42,19 @@ pthread_t create(void* (*fonction)(void* arg), void* arg) {
 }
 
 void invoke(pthread_t pid) {
-	kill(pid, SIGCONT);
+	pthread_kill(pid, SIGCONT);
 }
 
 void destroy(pthread_t pid) {
-	kill(pid, SIGKILL);
+	pthread_kill(pid, SIGKILL);
 }
 
 void quit(pthread_t pid) {
-	kill(pid, SIGTERM);
+	pthread_kill(pid, SIGTERM);
 }
 
 void suspend(pthread_t pid) {
-	sigset_t mask, old_mask;
+/*	sigset_t mask, old_mask;
 	sigemptyset(&mask);
 	int i = 0;
 
@@ -63,21 +63,21 @@ void suspend(pthread_t pid) {
 			sigaddset(&mask, i);
 
 	sigprocmask(SIG_SETMASK, &mask, &old_mask);
+*/
+	pthread_kill(pid, SIGSTOP);
 
-	kill(pid, SIGSTOP);
-
-	sigprocmask(SIG_SETMASK, &old_mask, NULL);
+//	sigprocmask(SIG_SETMASK, &old_mask, NULL);
 //	kill(pid, SIGSTOP);
 }
 
 void resume(pthread_t pid) {
-	kill(pid, SIGCONT);
+	pthread_kill(pid, SIGCONT);
 }
 
 void wait2(pthread_t pid) {
-	kill(pid, SIGSTOP);
+	pthread_kill(pid, SIGSTOP);
 }
 
 void wake_up(pthread_t pid) {
-	kill(pid, SIGCONT);
+	pthread_kill(pid, SIGCONT);
 }
