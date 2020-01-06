@@ -10,14 +10,13 @@
 #include <sys/types.h>
 
 void stop_handler(int pid) {
-	fprintf(stderr, "Je bloque le signal %d\n", pid);
 
 	sigset_t mask, old_mask;
 	sigemptyset(&mask);
 	int i = 0;
 
 	for (i = 0; i < NSIG; i++)
-		if (i != SIGCONT)
+		if (i != SIGUSR2)
 			sigaddset(&mask, i);
 
 	sigprocmask(SIG_SETMASK, &mask, &old_mask);
@@ -25,7 +24,13 @@ void stop_handler(int pid) {
 	pause();
 
 	sigprocmask(SIG_SETMASK, &old_mask, NULL);
+	signal(SIGUSR1, stop_handler);
 }
+
+void continue_handler(int pid) {
+	signal(SIGUSR2, continue_handler);
+}
+
 
 // Crée un thread
 pthread_t create(void* (*fonction)(void* arg), void* arg) {
@@ -42,11 +47,11 @@ pthread_t create(void* (*fonction)(void* arg), void* arg) {
 }
 
 void invoke(pthread_t pid) {
-	pthread_kill(pid, SIGCONT);
+	pthread_kill(pid, SIGUSR2);
 }
 
 void destroy(pthread_t pid) {
-	pthread_kill(pid, SIGKILL);
+	pthread_kill(pid, SIGTERM);
 }
 
 void quit(pthread_t pid) {
@@ -64,20 +69,20 @@ void suspend(pthread_t pid) {
 
 	sigprocmask(SIG_SETMASK, &mask, &old_mask);
 */
-	pthread_kill(pid, SIGSTOP);
+	pthread_kill(pid, SIGUSR1);
 
 //	sigprocmask(SIG_SETMASK, &old_mask, NULL);
 //	kill(pid, SIGSTOP);
 }
 
 void resume(pthread_t pid) {
-	pthread_kill(pid, SIGCONT);
+	pthread_kill(pid, SIGUSR2);
 }
 
 void wait2(pthread_t pid) {
-	pthread_kill(pid, SIGSTOP);
+	pthread_kill(pid, SIGUSR1);
 }
 
 void wake_up(pthread_t pid) {
-	pthread_kill(pid, SIGCONT);
+	pthread_kill(pid, SIGUSR2);
 }
