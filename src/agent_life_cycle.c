@@ -51,7 +51,7 @@ void invoke(pthread_t pid) {
 }
 
 void destroy(pthread_t pid) {
-	pthread_kill(pid, SIGTERM);
+	pthread_kill(pid, SIGKILL);
 }
 
 void quit(pthread_t pid) {
