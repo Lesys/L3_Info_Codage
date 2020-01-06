@@ -50,10 +50,12 @@ void invoke(pthread_t pid) {
 	pthread_kill(pid, SIGUSR2);
 }
 
+// Utilisation de sigkill pour que l'agent ne puisse pas bloquer
 void destroy(pthread_t pid) {
 	pthread_kill(pid, SIGKILL);
 }
 
+// Utilisation de sigterm pour que l'agent puisse bloquer
 void quit(pthread_t pid) {
 	pthread_kill(pid, SIGTERM);
 }
@@ -66,6 +68,7 @@ void resume(pthread_t pid) {
 	pthread_kill(pid, SIGUSR2);
 }
 
+// à appeler au début d'un agent après l'initialisation
 void wait2(pthread_t pid) {
 	pthread_kill(pid, SIGUSR1);
 }
