@@ -59,20 +59,7 @@ void quit(pthread_t pid) {
 }
 
 void suspend(pthread_t pid) {
-/*	sigset_t mask, old_mask;
-	sigemptyset(&mask);
-	int i = 0;
-
-	for (i = 0; i < NSIG; i++)
-		if (i != SIGCONT)
-			sigaddset(&mask, i);
-
-	sigprocmask(SIG_SETMASK, &mask, &old_mask);
-*/
 	pthread_kill(pid, SIGUSR1);
-
-//	sigprocmask(SIG_SETMASK, &old_mask, NULL);
-//	kill(pid, SIGSTOP);
 }
 
 void resume(pthread_t pid) {
