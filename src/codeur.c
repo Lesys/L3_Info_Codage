@@ -195,7 +195,7 @@ int codeur(int encoder_type, bf_t data, msg_code_t * res, ...) {
         case 2:
         case 3:
         case 4:
-            codeur_hdbn(data, res, encoder_type);
+            return codeur_hdbn(data, res, encoder_type);
             break;
     }
 

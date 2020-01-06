@@ -13,7 +13,7 @@
 
 typedef struct dictionnaire_s {
     int nb_symboles;
-    char ** symboles;
+    bf_t * symboles;
     double * bornes_basses;
     double * bornes_hautes;
     int n_par_code;
