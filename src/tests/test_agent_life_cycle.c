@@ -160,7 +160,7 @@ void * emetteur_hdbn(void * args) {
 	int taille;
 	char buffer[11];
 	bf_t data;
-	msg_code_t data_code;
+//	msg_code_t data_code;
 
 	while (1) {
 		taille = rand() % 10 + 1;

@@ -24,7 +24,7 @@ FICHIERSC = $(OBJETS:.o=.c)
 
 #Nom du programme principal
 DIRMAIN := src/targets/
-NOMPROGPRINC = tp1_A
+#NOMPROGPRINC = tp1_A
 PROGRPRINC = $(NOMPROGPRINC).o
 PATHMAIN := $(DIRMAIN)$(PROGRPRINC)
 
@@ -45,7 +45,7 @@ REALNAME := $(SONAME)$(MINEUR)$(CORRECTION)
 #Variables pour la confection des executables de test :
 TESTDIR := $(DIRBUILD)test/
 TESTDIRC := src/tests/
-TESTOBJETS = test_matrice.o test_pseudo_aleatoire.o test_binaire_formate.o test_codeur_artm.o test_codeur_hdbn.o test_compression_arithmetique.o test_agent_life_cycle2.o
+TESTOBJETS = test_matrice.o test_pseudo_aleatoire.o test_binaire_formate.o test_codeur_artm.o test_codeur_hdbn.o test_compression_arithmetique.o test_agent_life_cycle.o test_etalement.o
 TESTFICHIERSC = $(TESTOBJETS:.o=.c)
 TESTEXEC = $(TESTOBJETS:%.o=%)
 #TESTSTATIC = test_blokus.static
